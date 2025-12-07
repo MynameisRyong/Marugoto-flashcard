@@ -16,7 +16,8 @@ const LessonSelector: React.FC<LessonSelectorProps> = ({ book, onStartLearning, 
   const maxLesson = Math.max(...lessons);
 
   const [startLesson, setStartLesson] = useState<number>(minLesson);
-  const [endLesson, setEndLesson] = useState<number>(maxLesson);
+  const [endLesson, setEndLesson] = useState<number>(minLesson);
+  
 
   const handleStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVal = parseInt(e.target.value, 10);
