@@ -6,6 +6,7 @@ import LessonSelector from './components/LessonSelector';
 import Flashcard from './components/Flashcard';
 import QuizView from './components/QuizView';
 import { generateQuizQuestions } from './utils/quiz';
+import { getCyclicSortedVocabulary } from './utils/sorter';
 import { ArrowLeft, ChevronLeft, ChevronRight, RefreshCw, Shuffle, BrainCircuit } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -46,43 +47,33 @@ const App: React.FC = () => {
   const displayDeck = useMemo(() => {
     if (filteredVocabulary.length === 0) return [];
     
-    // Create a copy to sort/shuffle
-    let deck = [...filteredVocabulary];
-
     if (sortMode === 'random') {
       // Fisher-Yates Shuffle
       // Note: We depend on shuffleTrigger to re-run this when button is clicked
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const _ = shuffleTrigger; 
       
+      let deck = [...filteredVocabulary];
       for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [deck[i], deck[j]] = [deck[j], deck[i]];
       }
+      return deck;
     } else {
-      // Cyclic Sort
-      deck.sort((a, b) => {
-        // Helper to find normalized index
-        const getSortValue = (vocab: VocabularyEntry) => {
-          const firstChar = vocab.hiragana.charAt(0);
-          const rawIndex = HIRAGANA_ORDER.indexOf(firstChar);
-          
-          // If char not found in chart (e.g. dakuten not in list), push to end
-          if (rawIndex === -1) return 999;
-
-          // (index - rotation + total) % total
-          // This simulates shifting the start of the alphabet
-          const len = HIRAGANA_ORDER.length;
-          return (rawIndex - rotationCount + len) % len;
-        };
-
-        return getSortValue(a) - getSortValue(b);
-      });
+      // Cyclic Sort using the new utility
+      return getCyclicSortedVocabulary(filteredVocabulary, rotationCount);
     }
-    return deck;
   }, [filteredVocabulary, sortMode, rotationCount, shuffleTrigger]);
 
   const currentCard = displayDeck[currentIndex];
+
+  // Determine start char for display label based on the actual sorted deck
+  const currentCyclicStartChar = useMemo(() => {
+    if (displayDeck.length === 0) return '';
+    const firstChar = displayDeck[0].hiragana.charAt(0);
+    // If it's a known kana, use it. If not (e.g. symbol), maybe show it or show '?'
+    return HIRAGANA_ORDER.includes(firstChar) ? firstChar : firstChar; 
+  }, [displayDeck]);
 
   // --- HANDLERS ---
 
@@ -142,7 +133,8 @@ const App: React.FC = () => {
         toggleSortMode('cyclic');
         return;
     }
-    setRotationCount(c => (c + 1) % HIRAGANA_ORDER.length);
+    // Increment rotation count. The sorter utility handles the modulo logic based on active groups.
+    setRotationCount(c => c + 1);
     setCurrentIndex(0);
     setIsFlipped(false);
   };
@@ -195,9 +187,6 @@ const App: React.FC = () => {
   const handleBackToFlashcards = () => {
     setView('learning');
   };
-
-  // Get current start char for cyclic display
-  const currentCyclicStartChar = HIRAGANA_ORDER[rotationCount % HIRAGANA_ORDER.length];
 
 
   // --- RENDER ---
