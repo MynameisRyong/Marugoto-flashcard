@@ -49,7 +49,7 @@ const Flashcard: React.FC<FlashcardProps> = ({ entry, isFlipped, onFlip }) => {
         <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-indigo-600 rounded-3xl flex flex-col items-center justify-center p-8 text-white">
           <div className="flex-1 flex flex-col items-center justify-center">
             {/* Nghĩa tiếng Việt: cho nhỏ lại trên mobile */}
-            <span className="font-semibold leading-relaxed text-[clamp(1.1rem,4.5vw,2rem)]">
+            <span className="font-semibold text-center leading-normal text-[2.2rem] sm:text-3xl md:text-[3.4rem] px-4">
               {entry.meaning}
             </span>
           </div>

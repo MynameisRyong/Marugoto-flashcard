@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { BookDefinition, LessonRange } from '../types';
 import { ArrowLeft, Book } from 'lucide-react';
@@ -14,32 +15,29 @@ const LessonSelector: React.FC<LessonSelectorProps> = ({ book, onStartLearning, 
   const minLesson = Math.min(...lessons);
   const maxLesson = Math.max(...lessons);
 
-  // dùng string để cho phép xóa sạch input
-  const [startLesson, setStartLesson] = useState<string>(String(minLesson));
-  const [endLesson, setEndLesson] = useState<string>(String(maxLesson));
-  const [error, setError] = useState<string>('');
+  const [startLesson, setStartLesson] = useState<number>(minLesson);
+  const [endLesson, setEndLesson] = useState<number>(maxLesson);
+
+  const handleStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVal = parseInt(e.target.value, 10);
+    setStartLesson(newVal);
+    // Enforce start <= end
+    if (newVal > endLesson) {
+      setEndLesson(newVal);
+    }
+  };
+
+  const handleEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVal = parseInt(e.target.value, 10);
+    setEndLesson(newVal);
+    // Enforce end >= start
+    if (newVal < startLesson) {
+      setStartLesson(newVal);
+    }
+  };
 
   const handleStart = () => {
-    const start = parseInt(startLesson, 10);
-    const end = parseInt(endLesson, 10);
-
-    if (isNaN(start) || isNaN(end)) {
-      setError('Please enter valid lesson numbers.');
-      return;
-    }
-
-    if (start < minLesson || end > maxLesson) {
-      setError(`Lessons must be between ${minLesson} and ${maxLesson}.`);
-      return;
-    }
-
-    if (start > end) {
-      setError('Start lesson cannot be greater than end lesson.');
-      return;
-    }
-
-    setError('');
-    onStartLearning({ start, end });
+    onStartLearning({ start: startLesson, end: endLesson });
   };
 
   return (
@@ -62,47 +60,59 @@ const LessonSelector: React.FC<LessonSelectorProps> = ({ book, onStartLearning, 
         </div>
 
         {/* Form Section */}
-        <div className="p-8 space-y-6">
-          <div className="flex space-x-4">
-            <div className="flex-1">
-              <label className="block text-sm font-semibold text-gray-600 mb-2">From Lesson</label>
+        <div className="p-8 space-y-8">
+          
+          <div className="space-y-6">
+            {/* Start Lesson Slider */}
+            <div>
+              <div className="flex justify-between items-end mb-2">
+                <label className="text-sm font-semibold text-gray-500">From Lesson</label>
+                <span className="text-2xl font-bold text-gray-800 tabular-nums">{startLesson}</span>
+              </div>
               <input
-                type="number"
+                type="range"
                 min={minLesson}
                 max={maxLesson}
                 value={startLesson}
-                onChange={(e) => setStartLesson(e.target.value)}
-                className="w-full p-3 border-2 border-gray-100 rounded-xl focus:border-indigo-500 focus:outline-none text-center text-lg font-bold text-white-800"
+                onChange={handleStartChange}
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
               />
+              <div className="flex justify-between text-xs text-gray-400 mt-1 px-1">
+                <span>{minLesson}</span>
+                <span>{maxLesson}</span>
+              </div>
             </div>
-            <div className="flex-1">
-              <label className="block text-sm font-semibold text-gray-600 mb-2">To Lesson</label>
+
+            {/* End Lesson Slider */}
+            <div>
+              <div className="flex justify-between items-end mb-2">
+                <label className="text-sm font-semibold text-gray-500">To Lesson</label>
+                <span className="text-2xl font-bold text-gray-800 tabular-nums">{endLesson}</span>
+              </div>
               <input
-                type="number"
+                type="range"
                 min={minLesson}
                 max={maxLesson}
                 value={endLesson}
-                onChange={(e) => setEndLesson(e.target.value)}
-                className="w-full p-3 border-2 border-gray-100 rounded-xl focus:border-indigo-500 focus:outline-none text-center text-lg font-bold text-white-800"
+                onChange={handleEndChange}
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
               />
+              <div className="flex justify-between text-xs text-gray-400 mt-1 px-1">
+                <span>{minLesson}</span>
+                <span>{maxLesson}</span>
+              </div>
             </div>
           </div>
           
           <div className="text-center text-sm text-gray-400">
-            Available: Lesson {minLesson} - {maxLesson}
+            Total range: {endLesson - startLesson + 1} lesson(s)
           </div>
-
-          {error && (
-            <div className="p-3 bg-red-50 text-red-600 rounded-lg text-sm text-center font-medium">
-              {error}
-            </div>
-          )}
 
           <button
             onClick={handleStart}
             className={`
               w-full py-4 rounded-xl font-bold text-lg shadow-md transition-transform active:scale-95
-              text-white bg-gray-900 hover:bg-gray-800
+              text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900
             `}
           >
             Start Learning
@@ -112,5 +122,41 @@ const LessonSelector: React.FC<LessonSelectorProps> = ({ book, onStartLearning, 
     </div>
   );
 };
+
+<style>
+{`
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 5px;
+    background-color: #e5e7eb; /* Tailwind gray-300 */
+    outline: none;
+    transition: background-color 0.2s ease;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px; /* tăng kích thước nút */
+    height: 24px;
+    background-color: #6366f1; /* indigo-500 */
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    background-color: #4f46e5; /* darker indigo */
+  }
+
+  input[type="range"]::-webkit-slider-thumb:active {
+    transform: scale(1.2);
+    background-color: #4338ca;
+  }
+`}
+</style>
+
 
 export default LessonSelector;
