@@ -8575,7 +8575,6 @@ export const B1_1_VOCAB_PART3: VocabularyEntry[] = [
   { kanji: "道場", hiragana: "どうじょう", meaning: "võ đường/ trường võ", lesson: 7 },
   { kanji: "伝統的な", hiragana: "でんとうてきな", meaning: "truyền thống", lesson: 7 },
   { kanji: "～の場合", hiragana: "～のばあい", meaning: "trong trường hợp…", lesson: 7 },
-  { kanji: "相手", hiragana: "あいて", meaning: "đối thủ, đối phương", lesson: 7 },
   { kanji: "突き", hiragana: "つき", meaning: "cú đấm", lesson: 7 },
   { kanji: "蹴り", hiragana: "けり", meaning: "cú đá", lesson: 7 },
   { kanji: "当てる", hiragana: "あてる", meaning: "đánh trúng", lesson: 7 },
