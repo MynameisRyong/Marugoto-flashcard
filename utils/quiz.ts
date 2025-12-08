@@ -10,7 +10,7 @@ function shuffleArray<T>(array: T[]): T[] {
   return newArray;
 }
 
-export const generateQuizQuestions = (vocab: VocabularyEntry[], limit: number = 30): QuizQuestion[] => {
+export const generateQuizQuestions = (vocab: VocabularyEntry[], limit: number = 50): QuizQuestion[] => {
   if (vocab.length < 4) {
     console.warn("Not enough vocabulary to generate multiple choice questions");
     return [];
