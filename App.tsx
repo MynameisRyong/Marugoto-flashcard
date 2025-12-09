@@ -246,7 +246,7 @@ const App: React.FC = () => {
             <button
               onClick={handleStartQuiz}
               className="flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all bg-indigo-600 text-white hover:bg-indigo-700 mr-2"
-              title="Start Quiz"
+              title="Start Quiz (All vocabulary in range)"
             >
               <BrainCircuit size={18} />
               <span className="hidden md:inline">Quiz</span>
