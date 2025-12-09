@@ -13,9 +13,9 @@ interface QuizViewProps {
   onNext: () => void;
   onRetry: () => void;
   onBackToFlashcards: () => void;
-
-  // 🔴 cần truyền thêm từ App
   bookId: string;
+  onReviewIncorrect: () => void;
+  incorrectCount: number;
 }
 
 
@@ -30,6 +30,8 @@ const QuizView: React.FC<QuizViewProps> = ({
   onRetry,
   onBackToFlashcards,
   bookId,
+  onReviewIncorrect,
+  incorrectCount,
 }) => {
   const isFinished = currentIndex >= questions.length;
 
@@ -128,6 +130,16 @@ const QuizView: React.FC<QuizViewProps> = ({
           </div>
 
           <div className="space-y-3">
+            {incorrectCount > 0 && (
+              <button
+                onClick={onReviewIncorrect}
+                className="w-full py-4 bg-purple-100 text-purple-700 rounded-xl font-bold hover:bg-purple-200 transition-all flex items-center justify-center gap-2"
+              >
+                <RotateCcw size={20} />
+                Review Incorrect Only ({incorrectCount})
+              </button>
+            )}
+            
             <button
               onClick={onRetry}
               className="w-full py-4 bg-indigo-600 text-white rounded-xl font-bold shadow-md hover:bg-indigo-700 transition-all flex items-center justify-center gap-2"
