@@ -28,6 +28,7 @@ const App: React.FC = () => {
   const [quizScore, setQuizScore] = useState(0);
   const [quizSelectedOption, setQuizSelectedOption] = useState<string | null>(null);
   const [quizHasAnswered, setQuizHasAnswered] = useState(false);
+  const [quizIncorrectQuestions, setQuizIncorrectQuestions] = useState<QuizQuestion[]>([]);
   
   // --- DERIVED DATA ---
   
@@ -159,6 +160,7 @@ const App: React.FC = () => {
     setQuizScore(0);
     setQuizSelectedOption(null);
     setQuizHasAnswered(false);
+    setQuizIncorrectQuestions([]); // reset incorrect list
     setView('quiz');
   };
 
@@ -171,7 +173,28 @@ const App: React.FC = () => {
     const currentQ = quizQuestions[currentQuizIndex];
     if (option === currentQ.correctAnswer) {
       setQuizScore(s => s + 1);
+    } else {
+      // Collect this question as an incorrect one
+      setQuizIncorrectQuestions(prev => {
+        // Avoid accidental duplicates if any
+        if (prev.some(q => q.id === currentQ.id)) return prev;
+        return [...prev, currentQ];
+      });
     }
+  };
+
+  const handleQuizReviewIncorrect = () => {
+    if (quizIncorrectQuestions.length === 0) {
+      return;
+    }
+
+    setQuizQuestions([...quizIncorrectQuestions]);
+    setCurrentQuizIndex(0);
+    setQuizScore(0);
+    setQuizSelectedOption(null);
+    setQuizHasAnswered(false);
+    // Reset incorrect list for the new session to track which ones are STILL wrong
+    setQuizIncorrectQuestions([]);
   };
 
   const handleQuizNext = () => {
@@ -218,6 +241,8 @@ const App: React.FC = () => {
         onRetry={handleQuizRetry}
         onBackToFlashcards={handleBackToFlashcards}
         bookId={selectedBook.id}
+        onReviewIncorrect={handleQuizReviewIncorrect}
+        incorrectCount={quizIncorrectQuestions.length}
       />
     );
   }
