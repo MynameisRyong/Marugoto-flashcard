@@ -10,14 +10,16 @@ function shuffleArray<T>(array: T[]): T[] {
   return newArray;
 }
 
-export const generateQuizQuestions = (vocab: VocabularyEntry[], limit: number = 50): QuizQuestion[] => {
+export const generateQuizQuestions = (
+  vocab: VocabularyEntry[]
+): QuizQuestion[] => {
   if (vocab.length < 4) {
     console.warn("Not enough vocabulary to generate multiple choice questions");
     return [];
   }
 
-  // Shuffle the entire vocabulary list to randomize question order
-  const shuffledVocab = shuffleArray(vocab).slice(0, limit);
+  // Shuffle the entire vocabulary list (NO LIMIT)
+  const shuffledVocab = shuffleArray(vocab);
 
   return shuffledVocab.map((entry, index) => {
     // 1. Determine Prompt
