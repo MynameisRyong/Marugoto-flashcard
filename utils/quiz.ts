@@ -11,17 +11,25 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export const generateQuizQuestions = (
-  vocab: VocabularyEntry[]
+  vocab: VocabularyEntry[],
+  limit?: number
 ): QuizQuestion[] => {
   if (vocab.length < 4) {
     console.warn("Not enough vocabulary to generate multiple choice questions");
     return [];
   }
 
-  // Shuffle the entire vocabulary list (NO LIMIT)
+  // Shuffle the entire vocabulary list
   const shuffledVocab = shuffleArray(vocab);
 
-  return shuffledVocab.map((entry, index) => {
+  // Apply limit if provided
+  const effectiveLimit = typeof limit === 'number' 
+    ? Math.min(limit, shuffledVocab.length) 
+    : shuffledVocab.length;
+
+  const limitedVocab = shuffledVocab.slice(0, effectiveLimit);
+
+  return limitedVocab.map((entry, index) => {
     // 1. Determine Prompt
     const prompt = entry.kanji 
       ? `${entry.kanji} (${entry.hiragana})` 
