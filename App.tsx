@@ -153,7 +153,7 @@ const App: React.FC = () => {
   // --- QUIZ HANDLERS ---
 
   const handleStartQuiz = () => {
-    // Generate quiz based on current filtered vocabulary
+    // Generate quiz based on current filtered vocabulary (ALL)
     const questions = generateQuizQuestions(filteredVocabulary);
     setQuizQuestions(questions);
     setCurrentQuizIndex(0);
@@ -161,6 +161,18 @@ const App: React.FC = () => {
     setQuizSelectedOption(null);
     setQuizHasAnswered(false);
     setQuizIncorrectQuestions([]); // reset incorrect list
+    setView('quiz');
+  };
+
+  const handleStartQuizBasic = () => {
+    // Generate quiz limited to 100 questions
+    const questions = generateQuizQuestions(filteredVocabulary, 100);
+    setQuizQuestions(questions);
+    setCurrentQuizIndex(0);
+    setQuizScore(0);
+    setQuizSelectedOption(null);
+    setQuizHasAnswered(false);
+    setQuizIncorrectQuestions([]);
     setView('quiz');
   };
 
@@ -269,12 +281,21 @@ const App: React.FC = () => {
 
           <div className="flex-1 flex justify-end items-center gap-2">
             <button
+              onClick={handleStartQuizBasic}
+              className="flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all bg-red-600 text-white hover:bg-red-700 active:scale-95 shadow-md"
+              title="Start Quiz (up to 100 questions)"
+            >
+              <BrainCircuit size={18} />
+              <span className="hidden md:inline">Quiz 100</span>
+            </button>
+
+            <button
               onClick={handleStartQuiz}
               className="flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all bg-indigo-600 text-white hover:bg-indigo-700 mr-2"
               title="Start Quiz (All vocabulary in range)"
             >
               <BrainCircuit size={18} />
-              <span className="hidden md:inline">Quiz</span>
+              <span className="hidden md:inline">Quiz All</span>
             </button>
 
             <button
