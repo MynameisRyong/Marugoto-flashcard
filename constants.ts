@@ -4575,7 +4575,7 @@ export const A2B1_VOCAB: VocabularyEntry[] = [
   { hiragana: "おきます 【おく1】", kanji: null, meaning: "đặt, để", lesson: 2 },
   { hiragana: "おきゃくさま", kanji: "お客様", meaning: "quý khách (cách nói lịch sự của おきゃくさん）", lesson: 4 },
   { hiragana: "おきゃくさん", kanji: "お客さん", meaning: "khách", lesson: 2 },
-  { hiragana: "おきゅうりょう（きゅうりょう）", kanji: "お給料", meaning: "lương", lesson: 2 },
+  { hiragana: "ごきゅうりょう（きゅうりょう）", kanji: "ご給料", meaning: "lương", lesson: 2 },
   { hiragana: "おくさん", kanji: null, meaning: "vợ (của người khác)", lesson: 4 },
   { hiragana: "おくち（くち）", kanji: "お口", meaning: "miệng/ khẩu vị", lesson: 3 },
   { hiragana: "おくります 【おくる1】", kanji: "送ります", meaning: "gửi", lesson: 4 },
