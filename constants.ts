@@ -5468,7 +5468,7 @@ export const A2B1_VOCAB: VocabularyEntry[] = [
   { hiragana: "ペア", kanji: null, meaning: "cặp, đôi", lesson: 6 },
   { hiragana: "へいじつ", kanji: "平日", meaning: "ngày thường", lesson: 2 },
   { hiragana: "へえ", kanji: null, meaning: "Hả? Uây ~!", lesson: 4 },
-  { hiragana: "ベジマイト", kanji: null, meaning: "bơ vegemite", lesson: 3 },
+  { hiragana: "ベジマイト", kanji: null, meaning: "bơ thực vật", lesson: 3 },
   { hiragana: "へた（な）", kanji: "（下手（な））", meaning: "tệ, kém", lesson: 8 },
   { hiragana: "ベッド", kanji: null, meaning: "giường", lesson: 8 },
   { hiragana: "ペット", kanji: null, meaning: "thú cưng, vật nuôi", lesson: 2 },
