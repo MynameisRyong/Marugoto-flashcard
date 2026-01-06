@@ -5140,7 +5140,7 @@ export const A2B1_VOCAB: VocabularyEntry[] = [
   { hiragana: "だんだん", kanji: null, meaning: "dần dần", lesson: 2 },
   { hiragana: "たんとう（します） （【する3】）", kanji: "担当（します）", meaning: "phụ trách, đảm nhiệm", lesson: 9 },
   { hiragana: "ちいさい", kanji: "小さい", meaning: "nhỏ", lesson: 2 },
-  { hiragana: "チーム", kanji: null, meaning: "đội", lesson: 1 },
+  { hiragana: "チーム", kanji: null, meaning: "đội tuyển, nhóm", lesson: 1 },
   { hiragana: "チームワーク", kanji: null, meaning: "làm việc nhóm", lesson: 1 },
   { hiragana: "チェック（します） （【する3】）", kanji: null, meaning: "kiểm tra", lesson: 8 },
   { hiragana: "チェックイン（します） （【する3】）", kanji: null, meaning: "check-in", lesson: 8 },
